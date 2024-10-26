@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load data, skipping the first row
-file_data = [line.replace("\n", "").split("\t") for line in open("population.txt").readlines()[1:]]
+file_data = [line.replace("\n", "").split("\t") for line in open("data/pupulation_data/population.txt").readlines()[1:]]
 
 annual_data = {}
 

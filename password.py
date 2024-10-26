@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Wczytanie danych z pliku
-file_path = "passwords.txt"  # Podaj właściwą ścieżkę do pliku
+file_path = "data/passwords_data/passwords.txt"  # Podaj właściwą ścieżkę do pliku
 data = pd.read_csv(file_path, sep="\t", header=None, names=["Password", "Age"])
 
 # Upewnij się, że kolumna Age zawiera liczby całkowite
