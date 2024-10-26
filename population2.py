@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 
-
-def plot_population2():
+def plot_population2(target_year):
     # Load data
     file_data = [line.replace("\n", "").split("\t") for line in open("data/pupulation_data/population.txt").readlines()[1:]]
 
@@ -25,32 +24,36 @@ def plot_population2():
         annual_data[year]['village']['men'] += village_men
         annual_data[year]['village']['women'] += village_women
 
-    # Ask the user for the year
-    target_year = int(input("Enter the year for which you want to display data (data is available for 2013-2050): "))
+    try:
+        # Convert input year to integer and check if it's in data
+        target_year = int(target_year)
 
+        # Check if data for the given year exists
+        if target_year in annual_data:
+            # Retrieve data for the selected year
+            data = annual_data[target_year]
 
-    # Check if data for the given year exists
-    if target_year in annual_data:
-        # Retrieve data for the selected year
-        data = annual_data[target_year]
+            # Prepare data for pie charts
+            labels = ['Men', 'Women']
+            city_values = [data['city']['men'], data['city']['women']]
+            village_values = [data['village']['men'], data['village']['women']]
 
-        # Prepare data for pie charts
-        labels = ['Men', 'Women']
-        city_values = [data['city']['men'], data['city']['women']]
-        village_values = [data['village']['men'], data['village']['women']]
+            # Drawing pie charts
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
 
-        # Drawing pie charts
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+            # Pie chart for cities
+            ax1.pie(city_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
+            ax1.set_title(f'Gender distribution in cities - {target_year}')
 
-        # Pie chart for cities
-        ax1.pie(city_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
-        ax1.set_title(f'Gender distribution in cities - {target_year}')
+            # Pie chart for villages
+            ax2.pie(village_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
+            ax2.set_title(f'Gender distribution in villages - {target_year}')
 
-        # Pie chart for villages
-        ax2.pie(village_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
-        ax2.set_title(f'Gender distribution in villages - {target_year}')
+            # Show charts
+            plt.show()
+        else:
+            # Show a message if the year is not in the data
+            print(f'Data for the year {target_year} is not available.')
 
-        # Show charts
-        plt.show()
-    else:
-        print(f'Data for the year {target_year} is not available.')
+    except ValueError:
+        print("Invalid year entered. Please enter a valid year.")
