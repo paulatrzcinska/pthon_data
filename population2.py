@@ -39,15 +39,15 @@ def plot_population2(target_year):
             village_values = [data['village']['men'], data['village']['women']]
 
             # Drawing pie charts
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+            fig, (plt1, plt2) = plt.subplots(1, 2, figsize=(12, 6))
 
             # Pie chart for cities
-            ax1.pie(city_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
-            ax1.set_title(f'Gender distribution in cities - {target_year}')
+            plt1.pie(city_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
+            plt1.set_title(f'Gender distribution in cities - {target_year}')
 
             # Pie chart for villages
-            ax2.pie(village_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
-            ax2.set_title(f'Gender distribution in villages - {target_year}')
+            plt2.pie(village_values, labels=labels, autopct='%1.1f%%', startangle=90, colors=['g', 'b'])
+            plt2.set_title(f'Gender distribution in villages - {target_year}')
 
             # Show charts
             plt.show()
