@@ -43,5 +43,5 @@ def plot_gas_stations_most_popular_company(selected_company):
         plt.figure()
         plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
         plt.title(f'Gas Stations by Road Category for {selected_company}')
-        plt.axis('equal')  # Equal aspect ratio to ensure pie chart is circular
+        plt.axis('equal')
         plt.show()

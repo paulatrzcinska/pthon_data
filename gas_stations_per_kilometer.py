@@ -57,3 +57,4 @@ def plot_gas_stations_per_kilometer():
             f"{road_names[sel.target.index]}\n{stations_per_kilometer[sel.target.index]:.2f} stations/km")
     plt.tight_layout()
     plt.show()
+
