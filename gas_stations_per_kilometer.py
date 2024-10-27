@@ -50,13 +50,12 @@ def plot_gas_stations_per_kilometer():
 
     # fill dictionary with number of roads for range
     for item in number_of_stations_per_kilometer_per_road:
-        if isinstance(item, list) and len(item) > 2:
-            third_value = item[2]
+        density = item[2]
 
-            for r in ranges:
-                if r <= third_value < r + interval:
-                    range_counts[f"{r}-{r+1}"] += 1
-                    break
+        for r in ranges:
+            if r <= density < r + interval:
+                range_counts[f"{r}-{r+1}"] += 1
+                break
 
     ranges_plot = list(range_counts.keys())
     values_plot = list(range_counts.values())
