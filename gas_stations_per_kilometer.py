@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import mplcursors
 from gas_stations_read_data import roads, gas_stations, road_categories
 
 
@@ -55,7 +54,6 @@ def plot_gas_stations_per_kilometer():
         for r in ranges:
             if r <= density < r + interval:
                 range_counts[f"{r}-{r+1}"] += 1
-                break
 
     ranges_plot = list(range_counts.keys())
     values_plot = list(range_counts.values())
