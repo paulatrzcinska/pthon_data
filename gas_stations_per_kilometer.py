@@ -10,9 +10,9 @@ def plot_gas_stations_per_kilometer():
         if road_category in road_categories:
             item[3] = road_categories[road_category]
 
-    # Top 20 roads with the biggest number of gas stations per kilometer
     gas_stations_per_road_count = {}
 
+    # count stations per road
     for item in gas_stations:
         road_id = int(item[1])
 
@@ -21,6 +21,7 @@ def plot_gas_stations_per_kilometer():
         else:
             gas_stations_per_road_count[road_id] = 1
 
+    # count number of stations per 100km
     number_of_stations_per_kilometer_per_road = []
 
     for item in roads:
@@ -32,29 +33,44 @@ def plot_gas_stations_per_kilometer():
         gas_station_per_100_kilometers = round(gas_stations_count / kilometers * 100, 5) if kilometers > 0 else 0
         number_of_stations_per_kilometer_per_road.append([road_id, road_name, gas_station_per_100_kilometers])
 
-    number_of_stations_per_kilometer_per_road.sort(key=lambda x: x[2], reverse=True)
-    top_20_stations_per_kilometer = number_of_stations_per_kilometer_per_road[:200]
+    # find max value per 100km
+    max_value = 0.0
+    for item in number_of_stations_per_kilometer_per_road:
+        if item[2] > max_value:
+            max_value = item[2]
 
-    road_names = [item[1] for item in top_20_stations_per_kilometer]
-    stations_per_kilometer = [item[2] for item in top_20_stations_per_kilometer]
+    # create ranges list
+    interval = 1
+    ranges = list(range(0, int(max_value) + 2, interval))
 
-    plt.figure(figsize=(14, 5))
-    bars = plt.bar(range(len(road_names)), stations_per_kilometer)
+    # prepare empty ranges dictionary
+    range_counts = {}
+    for item in ranges:
+        range_counts[f"{item}-{item+1}"] = 0
 
-    plt.xlabel("Road Name")
-    plt.ylabel("Stations per 100 kilometers")
-    plt.title("Top 200 Roads by stations per 100 kilometers")
+    # fill dictionary with number of roads for range
+    for item in number_of_stations_per_kilometer_per_road:
+        if isinstance(item, list) and len(item) > 2:
+            third_value = item[2]
 
-    plt.xticks([])
+            for r in ranges:
+                if r <= third_value < r + interval:
+                    range_counts[f"{r}-{r+1}"] += 1
+                    break
 
-    cursor = mplcursors.cursor(bars, hover=True)
+    ranges_plot = list(range_counts.keys())
+    values_plot = list(range_counts.values())
 
+    plt.figure(figsize=(10, 6))
+    plt.bar(ranges_plot, values_plot)
 
-    @cursor.connect("add")
-    def on_add(sel):
-        # Show the road name and the stations per kilometer on hover
-        sel.annotation.set_text(
-            f"{road_names[sel.target.index]}\n{stations_per_kilometer[sel.target.index]:.2f} stations/km")
+    for i in range(len(ranges_plot)):
+        plt.text(i, values_plot[i], values_plot[i], ha = 'center')
+
+    plt.xlabel('Number of stations per 100km')
+    plt.ylabel('Number of roads')
+    plt.title('Number of roads depending on gas stations density')
+
     plt.tight_layout()
     plt.show()
 
